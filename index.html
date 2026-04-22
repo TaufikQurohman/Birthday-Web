@@ -285,30 +285,36 @@
     </div>
 
     <!-- SCREEN 4: HALAMAN VIDEO -->
-    <div id="pageVideo" class="hidden-screen fixed inset-0 z-40 overflow-y-auto flex flex-col justify-center">
+    <div id="pageVideo" class="hidden-screen fixed inset-0 z-40 overflow-y-auto">
 
-        <div class="fixed top-0 left-0 w-full p-6 pt-12 z-50 max-w-md mx-auto right-0">
+        <!-- Tombol kembali floating pojok kiri atas -->
+        <div class="fixed top-8 w-full z-50 max-w-md mx-auto left-0 right-0 px-4">
             <button onclick="closePage()" type="button"
-                class="text-pink-500 font-bold flex items-center gap-2 hover:text-pink-700 bg-white/90 backdrop-blur-sm px-4 py-2 rounded-full shadow-md w-max transition">
+                class="text-pink-500 font-bold flex items-center gap-2 hover:text-pink-700 bg-white/90 backdrop-blur-sm px-4 py-2 rounded-full shadow-md transition">
                 <span>⬅️</span> Kembali
             </button>
         </div>
 
-        <div class="w-full max-w-md mx-auto bg-white py-12 shadow-2xl relative mt-16 mb-16 rounded-3xl overflow-hidden">
-            <h2 class="text-4xl text-pink-600 mb-8 font-handwriting text-center px-4">
-                Spesial Buat Kamu
-            </h2>
+        <!-- Konten tengah agak ke bawah -->
+        <div class="min-h-screen flex flex-col items-center justify-center pt-20 pb-10 px-4">
 
-            <div class="w-full aspect-video bg-black shadow-inner">
-                <video class="w-full h-full object-cover" controls>
-                    <source src="mov2.mov" type="video/mp4">
-                    Browser kamu tidak mendukung video.
-                </video>
+            <div class="w-full max-w-md bg-white py-12 shadow-2xl rounded-3xl overflow-hidden">
+                <h2 class="text-4xl text-pink-600 mb-8 font-handwriting text-center px-4">
+                    Spesial Buat Kamu
+                </h2>
+
+                <div class="w-full aspect-video bg-black shadow-inner">
+                    <video class="w-full h-full object-cover" controls>
+                        <source src="mov2.mov" type="video/mp4">
+                        Browser kamu tidak mendukung video.
+                    </video>
+                </div>
+
+                <p class="text-center text-gray-600 mt-8 text-sm px-8 leading-relaxed">
+                    Semoga video ini bikin kita selalu inget, betapa bahagianya dunia pas kita lagi sama-sama.
+                </p>
             </div>
 
-            <p class="text-center text-gray-600 mt-8 text-sm px-8 leading-relaxed">
-                Semoga video ini bikin kita selalu inget, betapa bahagianya dunia pas kita lagi sama-sama.
-            </p>
         </div>
 
     </div>
