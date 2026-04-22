@@ -83,6 +83,20 @@
                 opacity: 1;
             }
         }
+        /* Memastikan tombol selalu bisa diklik */
+        button {
+            pointer-events: auto !important;
+            position: relative;
+            z-index: 100 !important;
+        }
+
+        /* Memastikan area tombol kembali tidak tertutup */
+        .fixed.top-0 {
+            pointer-events: none; /* Biar div-nya tembus klik */
+        }
+        .fixed.top-0 button {
+            pointer-events: auto; /* Tapi tombolnya tetap bisa diklik */
+        }
     </style>
 </head>
 
