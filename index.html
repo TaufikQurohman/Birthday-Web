@@ -446,21 +446,25 @@
         }
 
         // Fungsi kembali ke menu utama
-        // Fungsi kembali ke menu utama
         function closePage(pageId) {
-            // Sembunyikan halaman yang sedang aktif
+            // 1. Ambil halaman yang aktif
             const page = document.getElementById(pageId);
-            page.classList.add('hidden-screen');
+            
+            // 2. Sembunyikan halaman dengan menghilangkan kelas animasinya
             page.classList.remove('slide-in-right');
+            page.classList.add('hidden-screen');
 
-            // Tampilkan kembali menu utama
+            // 3. Tampilkan kembali menu utama
             const mainMenu = document.getElementById('mainMenu');
             mainMenu.classList.remove('hidden-screen');
-
-            // PERBAIKAN: Hapus kelas animasi dulu, baru tambahkan lagi (re-trigger)
+            
+            // 4. Force Reset Animasi Menu Utama
             mainMenu.classList.remove('fade-in-up');
-            void mainMenu.offsetWidth; // Trik untuk memicu reflow agar animasi jalan dari awal
+            void mainMenu.offsetWidth; 
             mainMenu.classList.add('fade-in-up');
+            
+            // 5. PASTIKAN z-index menu utama kembali di atas
+            mainMenu.style.zIndex = "40"; 
         }
     </script>
 </body>
