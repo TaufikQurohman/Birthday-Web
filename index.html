@@ -1,0 +1,461 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Something Special For You</title>
+    <!-- Tailwind CSS untuk styling -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Library untuk efek Confetti (potongan kertas) -->
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@600&family=Poppins:wght@300;400;600&display=swap"
+        rel="stylesheet">
+
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: #fce7f3;
+            /* Pink pastel fallback */
+        }
+
+        .font-handwriting {
+            font-family: 'Caveat', cursive;
+        }
+
+        /* Animasi masuk */
+        .fade-in-up {
+            animation: fadeInUp 1s ease-out forwards;
+            opacity: 0;
+            transform: translateY(20px);
+        }
+
+        @keyframes fadeInUp {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Animasi tombol berdetak */
+        .pulse-button {
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0% {
+                transform: scale(1);
+                box-shadow: 0 0 0 0 rgba(236, 72, 153, 0.7);
+            }
+
+            70% {
+                transform: scale(1.05);
+                box-shadow: 0 0 0 15px rgba(236, 72, 153, 0);
+            }
+
+            100% {
+                transform: scale(1);
+                box-shadow: 0 0 0 0 rgba(236, 72, 153, 0);
+            }
+        }
+
+        /* Menyembunyikan elemen */
+        .hidden-screen {
+            display: none !important;
+        }
+
+        /* Animasi Transisi Halaman */
+        .slide-in-right {
+            animation: slideInRight 0.5s forwards;
+        }
+
+        @keyframes slideInRight {
+            from {
+                transform: translateX(100%);
+                opacity: 0;
+            }
+
+            to {
+                transform: translateX(0);
+                opacity: 1;
+            }
+        }
+    </style>
+</head>
+
+<body class="min-h-screen text-gray-800 antialiased overflow-x-hidden relative z-0">
+
+    <!-- ========================================== -->
+    <!-- BACKGROUND PAGE 2 (MAIN MENU) -->
+    <!-- ========================================== -->
+    <!-- GANTI LINK FOTO DI DALAM url('...') DI BAWAH INI -->
+    <div class="fixed inset-0 z-[-1]"
+        style="background-image: url('https://drive.google.com/thumbnail?id=1VS70NACdUhMldfLTf56sRvMUSLBL2NsP&sz=w1000'); background-size: cover; background-position: center;">
+    </div>
+    <!-- Layer overlay transparan agar menu teks tetap terbaca -->
+    <div class="fixed inset-0 bg-pink-50/80 z-[-1] backdrop-blur-[3px]"></div>
+
+
+    <!-- ========================================== -->
+    <!-- AUDIO BACKGROUND -->
+    <!-- ========================================== -->
+    <audio id="bgMusic" loop>
+        <!-- LAGU: GANTI LINK MP3 DI BAWAH INI DENGAN LINK LAGU PILIHANMU -->
+        <!-- Catatan: Harus berupa link langsung berakhiran .mp3 -->
+        <source src="lagu.mp3" type="audio/mpeg">
+    </audio>
+
+    <!-- TOMBOL KONTROL MUSIK (Mengambang di pojok kanan bawah, muncul setelah dibuka) -->
+    <button id="musicToggle" onclick="toggleMusic()"
+        class="hidden-screen fixed bottom-6 right-6 bg-white/90 backdrop-blur-sm p-4 rounded-full shadow-xl z-50 text-2xl border-2 border-pink-200 hover:scale-110 transition transform duration-300">
+        🎵
+    </button>
+
+    <!-- ========================================== -->
+    <!-- SCREEN 1: SAMPUL UNDANGAN -->
+    <!-- ========================================== -->
+    <div id="coverScreen" class="fixed inset-0 flex flex-col items-center justify-center z-50 overflow-hidden">
+
+        <!-- BACKGROUND HALAMAN 1 (SAMPUL) -->
+        <!-- GANTI LINK FOTO DI DALAM url('...') DI BAWAH INI -->
+        <div class="absolute inset-0 z-0"
+            style="background-image: url('https://images.unsplash.com/photo-1518199266791-5375a83190b7?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80'); background-size: cover; background-position: center;">
+        </div>
+        <!-- Layer overlay transparan -->
+        <div class="absolute inset-0 bg-pink-200/70 z-0 backdrop-blur-sm"></div>
+
+        <!-- Kotak Surat -->
+        <div
+            class="relative z-10 bg-white/95 backdrop-blur-md p-8 rounded-3xl shadow-2xl text-center max-w-sm mx-4 transform transition hover:scale-105 duration-300 border-4 border-pink-200">
+            <div class="text-6xl mb-4">💌</div>
+            <h1 class="text-2xl font-bold text-pink-600 mb-2">Hai kesayangan... ada sesuatu nih buat kamu.</h1>
+            <p class="text-gray-500 mb-8 text-sm">Jangan diintip dulu ya! Klik pelan-pelan.</p>
+
+            <button onclick="openCard()"
+                class="pulse-button bg-pink-500 hover:bg-pink-600 text-white font-bold py-3 px-8 rounded-full shadow-lg transition duration-300 flex items-center justify-center mx-auto">
+                Buka Sekarang 🎁
+            </button>
+        </div>
+    </div>
+
+
+    <!-- ========================================== -->
+    <!-- SCREEN 2: MENU UTAMA -->
+    <!-- ========================================== -->
+    <div id="mainMenu"
+        class="hidden-screen min-h-screen pb-12 max-w-md mx-auto relative pt-10 px-4 flex flex-col justify-center">
+
+        <!-- Header -->
+        <div class="text-center mb-10 fade-in-up bg-white/50 backdrop-blur-sm p-4 rounded-3xl shadow-sm border border-white/40"
+            style="animation-delay: 0.2s;">
+            <h2 class="text-5xl text-pink-600 mb-2 font-handwriting drop-shadow-sm">Selamat Ulang Tahun, Sayangku!</h2>
+            <p class="text-md text-gray-700 mt-2 font-medium">Hari ini spesial buat kamu. Aku seneng banget bisa nemenin
+                kamu ngerayain hari ini.</p>
+        </div>
+
+        <!-- Pilihan Menu -->
+        <div class="space-y-4 fade-in-up" style="animation-delay: 0.5s;">
+
+            <div onclick="openPage('pageFoto')"
+                class="bg-white/95 backdrop-blur-sm rounded-2xl shadow-md p-5 flex items-center justify-between cursor-pointer hover:bg-pink-50 hover:scale-105 transition duration-300 border-4 border-pink-200">
+                <div class="flex items-center gap-4">
+                    <span class="text-3xl">📷</span>
+                    <div>
+                        <h3 class="font-bold text-pink-600">Momen Kita Berdua</h3>
+                        <p class="text-xs text-gray-500">Foto-foto random yang selalu bikin aku senyum.</p>
+                    </div>
+                </div>
+                <span class="text-pink-400">➡️</span>
+            </div>
+
+            <div onclick="openPage('pageVideo')"
+                class="bg-white/95 backdrop-blur-sm rounded-2xl shadow-md p-5 flex items-center justify-between cursor-pointer hover:bg-pink-50 hover:scale-105 transition duration-300 border-4 border-pink-200">
+                <div class="flex items-center gap-4">
+                    <span class="text-3xl">🎬</span>
+                    <div>
+                        <h3 class="font-bold text-pink-600">Tonton Bentar Deh</h3>
+                        <p class="text-xs text-gray-500">Ada kejutan kecil yang aku siapin buat kamu.</p>
+                    </div>
+                </div>
+                <span class="text-pink-400">➡️</span>
+            </div>
+
+            <div onclick="openPage('pagePesan')"
+                class="bg-white/95 backdrop-blur-sm rounded-2xl shadow-md p-5 flex items-center justify-between cursor-pointer hover:bg-pink-50 hover:scale-105 transition duration-300 border-4 border-pink-200">
+                <div class="flex items-center gap-4">
+                    <span class="text-3xl">💌</span>
+                    <div>
+                        <h3 class="font-bold text-pink-600">Surat Buat Kamu</h3>
+                        <p class="text-xs text-gray-500">Baca ini ya, dari aku yang paling sayang kamu.</p>
+                    </div>
+                </div>
+                <span class="text-pink-400">➡️</span>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- ========================================== -->
+    <!-- SCREEN 3: HALAMAN FOTO -->
+    <!-- ========================================== -->
+    <div id="pageFoto" class="hidden-screen fixed inset-0 z-40 overflow-y-auto pb-12">
+        <div class="max-w-md mx-auto p-6 pt-12 pb-6">
+            <button onclick="closePage('pageFoto')"
+                class="text-pink-500 font-bold mb-6 flex items-center gap-2 hover:text-pink-700 bg-pink-50 px-4 py-2 rounded-full w-max transition">
+                <span>⬅️</span> Kembali
+            </button>
+            <h2 class="text-4xl text-pink-600 mb-2 font-handwriting text-center">Galeri Kenangan Kita ✨</h2>
+            <p class="text-center text-sm text-gray-500 mb-6">Sebagian kecil dari banyaknya momen bahagia bareng kamu.
+            </p>
+        </div>
+
+        <!-- Layout Galeri Grid Aesthetic (15 Foto) -->
+        <div class="max-w-md mx-auto px-4 pb-10">
+            <div class="grid grid-cols-2 gap-3">
+                <!-- FOTO 1: GANTI LINK FOTO DI DALAM src="..." DI BAWAH INI -->
+                <div class="col-span-2 group relative overflow-hidden rounded-2xl shadow-sm">
+                    <img src="1.jpg" alt="Momen 1"
+                        class="w-full h-48 object-cover transform transition duration-500 group-hover:scale-110">
+                </div>
+
+                <!-- FOTO 2: GANTI LINK FOTO DI DALAM src="..." DI BAWAH INI -->
+                <div class="group relative overflow-hidden rounded-2xl shadow-sm">
+                    <img src="17.jpg" alt="Momen 2"
+                        class="w-full aspect-square object-cover transform transition duration-500 group-hover:scale-110">
+                </div>
+
+                <!-- FOTO 3: GANTI LINK FOTO DI DALAM src="..." DI BAWAH INI -->
+                <div class="group relative overflow-hidden rounded-2xl shadow-sm">
+                    <img src="18.jpg" alt="Momen 3"
+                        class="w-full aspect-square object-cover transform transition duration-500 group-hover:scale-110">
+                </div>
+
+                <!-- FOTO 4: GANTI LINK FOTO DI DALAM src="..." DI BAWAH INI -->
+                <div class="row-span-2 group relative overflow-hidden rounded-2xl shadow-sm">
+                    <img src="10.jpg" alt="Momen 4"
+                        class="w-full h-full object-cover transform transition duration-500 group-hover:scale-110">
+                </div>
+
+                <div class="flex flex-col gap-3">
+                    <!-- FOTO 5: GANTI LINK FOTO DI DALAM src="..." DI BAWAH INI -->
+                    <div class="group relative overflow-hidden rounded-2xl shadow-sm h-32">
+                        <img src="5.jpg" alt="Momen 5"
+                            class="w-full h-full object-cover transform transition duration-500 group-hover:scale-110">
+                    </div>
+                    <!-- FOTO 6: GANTI LINK FOTO DI DALAM src="..." DI BAWAH INI -->
+                    <div class="group relative overflow-hidden rounded-2xl shadow-sm h-32">
+                        <img src="6.jpg" alt="Momen 6"
+                            class="w-full h-full object-cover transform transition duration-500 group-hover:scale-110">
+                    </div>
+                </div>
+
+                <!-- FOTO 7: GANTI LINK FOTO DI DALAM src="..." DI BAWAH INI -->
+                <div class="col-span-2 group relative overflow-hidden rounded-2xl shadow-sm mt-1">
+                    <img src="7.jpg" alt="Momen 7"
+                        class="w-full h-40 object-cover transform transition duration-500 group-hover:scale-110">
+                </div>
+
+                <!-- FOTO 8: GANTI LINK FOTO DI DALAM src="..." DI BAWAH INI -->
+                <div class="group relative overflow-hidden rounded-2xl shadow-sm">
+                    <img src="16.jpg" alt="Momen 8"
+                        class="w-full aspect-square object-cover transform transition duration-500 group-hover:scale-110">
+                </div>
+
+                <!-- FOTO 9: GANTI LINK FOTO DI DALAM src="..." DI BAWAH INI -->
+                <div class="group relative overflow-hidden rounded-2xl shadow-sm">
+                    <img src="9.jpg" alt="Momen 9"
+                        class="w-full aspect-square object-cover transform transition duration-500 group-hover:scale-110">
+                </div>
+
+                <div class="flex flex-col gap-3">
+                    <!-- FOTO 10: GANTI LINK FOTO DI DALAM src="..." DI BAWAH INI -->
+                    <div class="group relative overflow-hidden rounded-2xl shadow-sm h-32">
+                        <img src="3.jpg" alt="Momen 10"
+                            class="w-full h-full object-cover transform transition duration-500 group-hover:scale-110">
+                    </div>
+                    <!-- FOTO 11: GANTI LINK FOTO DI DALAM src="..." DI BAWAH INI -->
+                    <div class="group relative overflow-hidden rounded-2xl shadow-sm h-32">
+                        <img src="11.jpg" alt="Momen 11"
+                            class="w-full h-full object-cover transform transition duration-500 group-hover:scale-110">
+                    </div>
+                </div>
+
+                <!-- FOTO 12: GANTI LINK FOTO DI DALAM src="..." DI BAWAH INI -->
+                <div class="row-span-2 group relative overflow-hidden rounded-2xl shadow-sm">
+                    <img src="13.jpg" alt="Momen 12"
+                        class="w-full h-full object-cover transform transition duration-500 group-hover:scale-110">
+                </div>
+
+                <!-- FOTO 13: GANTI LINK FOTO DI DALAM src="..." DI BAWAH INI -->
+                <div class="col-span-2 group relative overflow-hidden rounded-2xl shadow-sm mt-1">
+                    <img src="12.jpg" alt="Momen 13"
+                        class="w-full h-48 object-cover transform transition duration-500 group-hover:scale-110">
+                </div>
+
+                <!-- FOTO 14: GANTI LINK FOTO DI DALAM src="..." DI BAWAH INI -->
+                <div class="group relative overflow-hidden rounded-2xl shadow-sm">
+                    <img src="14.jpg" alt="Momen 14"
+                        class="w-full aspect-square object-cover transform transition duration-500 group-hover:scale-110">
+                </div>
+
+                <!-- FOTO 15: GANTI LINK FOTO DI DALAM src="..." DI BAWAH INI -->
+                <div class="group relative overflow-hidden rounded-2xl shadow-sm">
+                    <img src="15.jpg" alt="Momen 15"
+                        class="w-full aspect-square object-cover transform transition duration-500 group-hover:scale-110">
+                </div>
+            </div>
+
+            <p class="text-center text-pink-400 font-handwriting text-3xl mt-10 mb-4">And many more to come... ❤️</p>
+        </div>
+    </div>
+
+    <!-- ========================================== -->
+    <!-- SCREEN 4: HALAMAN VIDEO -->
+    <!-- ========================================== -->
+    <div id="pageVideo" class="hidden-screen fixed inset-0 z-40 overflow-y-auto flex flex-col justify-center">
+
+        <!-- Tombol kembali -->
+        <div class="absolute top-0 left-0 w-full p-6 pt-12 z-50 max-w-md mx-auto right-0">
+            <button onclick="closePage('pageVideo')"
+                class="text-pink-500 font-bold flex items-center gap-2 hover:text-pink-700 bg-white/90 backdrop-blur-sm px-4 py-2 rounded-full shadow-md w-max transition">
+                <span>⬅️</span> Kembali
+            </button>
+        </div>
+
+        <div class="w-full max-w-md mx-auto bg-white py-12 shadow-2xl relative mt-16 mb-16 rounded-3xl overflow-hidden">
+            <h2 class="text-4xl text-pink-600 mb-8 font-handwriting text-center px-4">
+                Spesial Buat Kamu
+            </h2>
+
+            <!-- VIDEO LOCAL -->
+            <div class="w-full aspect-video bg-black shadow-inner">
+                <video class="w-full h-full object-cover" controls>
+                    <source src="vid.mov" type="video/mp4">
+                    Browser kamu tidak mendukung video.
+                </video>
+            </div>
+
+            <p class="text-center text-gray-600 mt-8 text-sm px-8 leading-relaxed">
+                Semoga video ini bisa bikin kamu senyum-senyum sendiri ya. Sengaja aku siapin buat ngerayain hari lahir
+                kamu.
+            </p>
+        </div>
+
+    </div>
+
+    <!-- ========================================== -->
+    <!-- SCREEN 5: HALAMAN PESAN DARI HATI -->
+    <!-- ========================================== -->
+    <div id="pagePesan" class="hidden-screen fixed inset-0 z-40 overflow-y-auto">
+
+        <div class="max-w-md mx-auto p-6 pt-12 relative z-10 min-h-screen flex flex-col">
+            <button onclick="closePage('pagePesan')"
+                class="text-pink-600 font-bold mb-6 flex items-center gap-2 hover:text-pink-800 bg-white/50 w-max px-3 py-1 rounded-full shadow-sm">
+                <span>⬅️</span> Kembali
+            </button>
+
+            <div class="bg-white/90 backdrop-blur-sm p-8 rounded-3xl shadow-2xl border-2 border-pink-100 mt-4 relative">
+                <h2 class="text-4xl text-pink-600 mb-6 font-handwriting text-center border-b-2 border-pink-200 pb-4">
+                    Teruntuk kamu, favoritku...</h2>
+
+                <div class="text-gray-800 text-sm leading-relaxed space-y-5 text-justify">
+                    <p>Selamat ulang tahun ya, orang yang paling spesial buat aku! 🎂</p>
+                    <p>Semenjak ada kamu, hariku rasanya jadi jauh lebih berwarna dan seru. Setiap kali jalan bareng,
+                        ngobrol hal-hal random, semuanya kerasa pas banget dan bikin aku bahagia.</p>
+                    <p>Makasih ya udah mau nemenin aku sejauh ini. Makasih udah jadi tempat ceritaku yang paling nyaman,
+                        dan selalu bisa bikin aku tenang pas lagi capek atau banyak pikiran.</p>
+                    <p>Di umur kamu yang baru ini, aku cuma mau liat kamu bahagia. Semoga semua hal baik yang lagi kamu
+                        usahain berjalan lancar, tetep sehat, dan semoga alam semesta selalu berpihak sama kamu.</p>
+                    <p>Kalau nanti kamu ngelewatin hari yang berat, inget ya, kamu nggak pernah sendirian. Ada aku di
+                        sini yang bakal selalu dengerin kamu dan peluk kamu erat-erat.</p>
+                    <p>I love you so much, Sayang. Dulu, sekarang, dan selamanya. ❤️</p>
+
+                    <div class="text-center mt-8 pt-4 border-t border-pink-100">
+                        <p class="font-handwriting text-3xl text-pink-600 block">Love You Sayang,</p>
+                        <!-- GANTI NAMA ANDA DI BAWAH INI -->
+                        <p class="font-bold text-gray-900 text-lg mt-1">Your Boy</p>
+                    </div>
+                </div>
+            </div>
+            <div class="pb-12"></div>
+        </div>
+    </div>
+
+    <!-- Script Logika Interaksi -->
+    <script>
+        function openCard() {
+            // Sembunyikan cover
+            document.getElementById('coverScreen').classList.add('hidden-screen');
+            // Tampilkan menu utama
+            document.getElementById('mainMenu').classList.remove('hidden-screen');
+
+            // Tampilkan tombol musik dan putar lagu
+            document.getElementById('musicToggle').classList.remove('hidden-screen');
+            document.getElementById('bgMusic').play().catch(function (error) {
+                console.log("Autoplay dicegah oleh browser, butuh interaksi user.");
+            });
+
+            // Efek Confetti
+            var duration = 3 * 1000;
+            var animationEnd = Date.now() + duration;
+            var defaults = { startVelocity: 30, spread: 360, ticks: 60, zIndex: 100 };
+
+            function randomInRange(min, max) { return Math.random() * (max - min) + min; }
+
+            var interval = setInterval(function () {
+                var timeLeft = animationEnd - Date.now();
+                if (timeLeft <= 0) return clearInterval(interval);
+
+                var particleCount = 50 * (timeLeft / duration);
+                confetti(Object.assign({}, defaults, { particleCount, origin: { x: randomInRange(0.1, 0.3), y: Math.random() - 0.2 } }));
+                confetti(Object.assign({}, defaults, { particleCount, origin: { x: randomInRange(0.7, 0.9), y: Math.random() - 0.2 } }));
+            }, 250);
+
+            setTimeout(() => { confetti({ particleCount: 150, spread: 80, origin: { y: 0.6 } }); }, 500);
+        }
+
+        // Fungsi kontrol musik (Play/Pause)
+        function toggleMusic() {
+            const music = document.getElementById('bgMusic');
+            const btn = document.getElementById('musicToggle');
+
+            if (music.paused) {
+                music.play();
+                btn.innerHTML = '🎵'; // Ikon lagu nyala
+            } else {
+                music.pause();
+                btn.innerHTML = '🔇'; // Ikon lagu mati
+            }
+        }
+
+        // Fungsi buka halaman spesifik
+        function openPage(pageId) {
+            // Sembunyikan menu utama
+            document.getElementById('mainMenu').classList.add('hidden-screen');
+
+            // Tampilkan halaman yang dipilih dengan animasi
+            const page = document.getElementById(pageId);
+            page.classList.remove('hidden-screen');
+            page.classList.add('slide-in-right');
+
+            // Scroll ke paling atas
+            window.scrollTo(0, 0);
+        }
+
+        // Fungsi kembali ke menu utama
+        function closePage(pageId) {
+            // Sembunyikan halaman yang sedang aktif
+            const page = document.getElementById(pageId);
+            page.classList.add('hidden-screen');
+            page.classList.remove('slide-in-right');
+
+            // Tampilkan kembali menu utama
+            const mainMenu = document.getElementById('mainMenu');
+            mainMenu.classList.remove('hidden-screen');
+            mainMenu.classList.add('fade-in-up');
+        }
+    </script>
+</body>
+
+</html>
