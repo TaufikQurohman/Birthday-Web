@@ -165,10 +165,11 @@
                     <span class="text-3xl">📷</span>
                     <div>
                         <h3 class="font-bold text-pink-600">Momen Kita Berdua</h3>
-                        <p class="text-xs text-gray-500">Lembaran memori tentang bagaimana perjalanan kita dimulai, hingga menjadi sejauh ini.</p>
+                        <p class="text-xs text-gray-500">Lembaran memori tentang bagaimana perjalanan kita dimulai,
+                            hingga menjadi sejauh ini.</p>
                     </div>
                 </div>
-                <span class="text-pink-400">➡️</span>
+                <span class="text-pink-400"></span>
             </div>
 
             <div onclick="openPage('pageVideo')"
@@ -180,7 +181,7 @@
                         <p class="text-xs text-gray-500">Ada kejutan kecil yang aku siapin buat kamu.</p>
                     </div>
                 </div>
-                <span class="text-pink-400">➡️</span>
+                <span class="text-pink-400"></span>
             </div>
 
             <div onclick="openPage('pagePesan')"
@@ -192,7 +193,7 @@
                         <p class="text-xs text-gray-500">Baca ini ya, dari aku yang paling sayang kamu.</p>
                     </div>
                 </div>
-                <span class="text-pink-400">➡️</span>
+                <span class="text-pink-400"></span>
             </div>
 
         </div>
@@ -207,7 +208,7 @@
                 class="text-pink-500 font-bold mb-6 flex items-center gap-2 hover:text-pink-700 bg-pink-50 px-4 py-2 rounded-full w-max transition">
                 <span>⬅️</span> Kembali
             </button>
-            <h2 class="text-4xl text-pink-600 mb-2 font-handwriting text-center">Galeri Kenangan Kita ✨</h2>
+            <h2 class="text-4xl text-pink-600 mb-2 font-handwriting text-center">Galeri Kenangan Kita</h2>
             <p class="text-center text-sm text-gray-500 mb-6">Sebagian kecil dari banyaknya momen bahagia bareng kamu.
             </p>
         </div>
@@ -445,6 +446,7 @@
         }
 
         // Fungsi kembali ke menu utama
+        // Fungsi kembali ke menu utama
         function closePage(pageId) {
             // Sembunyikan halaman yang sedang aktif
             const page = document.getElementById(pageId);
@@ -454,6 +456,10 @@
             // Tampilkan kembali menu utama
             const mainMenu = document.getElementById('mainMenu');
             mainMenu.classList.remove('hidden-screen');
+
+            // PERBAIKAN: Hapus kelas animasi dulu, baru tambahkan lagi (re-trigger)
+            mainMenu.classList.remove('fade-in-up');
+            void mainMenu.offsetWidth; // Trik untuk memicu reflow agar animasi jalan dari awal
             mainMenu.classList.add('fade-in-up');
         }
     </script>
