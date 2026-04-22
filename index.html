@@ -5,11 +5,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Something Special For You</title>
-    <!-- Tailwind CSS untuk styling -->
     <script src="https://cdn.tailwindcss.com"></script>
-    <!-- Library untuk efek Confetti (potongan kertas) -->
     <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
-    <!-- Google Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@600&family=Poppins:wght@300;400;600&display=swap"
         rel="stylesheet">
 
@@ -26,7 +23,6 @@
             font-family: 'Caveat', cursive;
         }
 
-        /* Animasi masuk */
         .fade-in-up {
             animation: fadeInUp 1s ease-out forwards;
             opacity: 0;
@@ -40,7 +36,6 @@
             }
         }
 
-        /* Animasi tombol berdetak */
         .pulse-button {
             animation: pulse 2s infinite;
         }
@@ -62,13 +57,10 @@
             }
         }
 
-        /* Menyembunyikan elemen */
         .hidden-screen {
             display: none !important;
-            pointer-events: none !important;
         }
 
-        /* Animasi Transisi Halaman */
         .slide-in-right {
             animation: slideInRight 0.5s forwards;
         }
@@ -85,57 +77,44 @@
             }
         }
 
-        /* Memastikan tombol selalu bisa diklik */
         button {
             pointer-events: auto !important;
             position: relative;
             z-index: 100 !important;
+        }
+
+        /* Fix: pastikan mainMenu tidak punya opacity/transform sisa animasi */
+        #mainMenu {
+            opacity: 1 !important;
+            transform: none !important;
         }
     </style>
 </head>
 
 <body class="min-h-screen text-gray-800 antialiased overflow-x-hidden relative z-0">
 
-    <!-- ========================================== -->
-    <!-- BACKGROUND PAGE 2 (MAIN MENU) -->
-    <!-- ========================================== -->
-    <!-- GANTI LINK FOTO DI DALAM url('...') DI BAWAH INI -->
     <div class="fixed inset-0 z-[-1]"
         style="background-image: url('bg.jpg'); background-size: cover; background-position: center;">
     </div>
-    <!-- Layer overlay transparan agar menu teks tetap terbaca -->
     <div class="fixed inset-0 bg-pink-50/80 z-[-1] backdrop-blur-[3px]"></div>
 
-
-    <!-- ========================================== -->
-    <!-- AUDIO BACKGROUND -->
-    <!-- ========================================== -->
     <audio id="bgMusic" loop>
-        <!-- LAGU: GANTI LINK MP3 DI BAWAH INI DENGAN LINK LAGU PILIHANMU -->
-        <!-- Catatan: Harus berupa link langsung berakhiran .mp3 -->
         <source src="lagu.mp3" type="audio/mpeg">
     </audio>
 
-    <!-- TOMBOL KONTROL MUSIK (Mengambang di pojok kanan bawah, muncul setelah dibuka) -->
     <button id="musicToggle" onclick="toggleMusic()"
         class="hidden-screen fixed bottom-6 right-6 bg-white/90 backdrop-blur-sm p-4 rounded-full shadow-xl z-50 text-2xl border-2 border-pink-200 hover:scale-110 transition transform duration-300">
         🎵
     </button>
 
-    <!-- ========================================== -->
     <!-- SCREEN 1: SAMPUL -->
-    <!-- ========================================== -->
     <div id="coverScreen" class="fixed inset-0 flex flex-col items-center justify-center z-50 overflow-hidden">
 
-        <!-- BACKGROUND HALAMAN 1 (SAMPUL) -->
-        <!-- GANTI LINK FOTO DI DALAM url('...') DI BAWAH INI -->
         <div class="absolute inset-0 z-0"
             style="background-image: url('bg.jpg'); background-size: cover; background-position: center;">
         </div>
-        <!-- Layer overlay transparan -->
         <div class="absolute inset-0 bg-pink-50/80 z-0 backdrop-blur-sm"></div>
 
-        <!-- Kotak Surat -->
         <div
             class="relative z-10 bg-white/95 backdrop-blur-md p-8 rounded-3xl shadow-2xl text-center max-w-sm mx-4 transform transition hover:scale-105 duration-300 border-4 border-pink-200">
             <div class="text-6xl mb-4">💌</div>
@@ -150,22 +129,17 @@
     </div>
 
 
-    <!-- ========================================== -->
     <!-- SCREEN 2: MENU UTAMA -->
-    <!-- ========================================== -->
     <div id="mainMenu"
         class="hidden-screen min-h-screen pb-12 max-w-md mx-auto relative pt-10 px-4 flex flex-col justify-center">
 
-        <!-- Header -->
-        <div class="text-center mb-10 fade-in-up bg-white/50 backdrop-blur-sm p-4 rounded-3xl shadow-sm border border-white/40"
-            style="animation-delay: 0.2s;">
+        <div class="text-center mb-10 bg-white/50 backdrop-blur-sm p-4 rounded-3xl shadow-sm border border-white/40">
             <h2 class="text-5xl text-pink-600 mb-2 font-handwriting drop-shadow-sm">Selamat Ulang Tahun, Sayangku!</h2>
             <p class="text-md text-gray-700 mt-2 font-medium">Hari ini spesial buat kamu. Aku seneng banget bisa nemenin
                 kamu ngerayain hari ini.</p>
         </div>
 
-        <!-- Pilihan Menu -->
-        <div class="space-y-4 fade-in-up" style="animation-delay: 0.5s;">
+        <div class="space-y-4">
 
             <div onclick="openPage('pageFoto')"
                 class="bg-white/95 backdrop-blur-sm rounded-2xl shadow-md p-5 flex items-center justify-between cursor-pointer hover:bg-pink-50 hover:scale-105 transition duration-300 border-4 border-pink-200">
@@ -207,12 +181,9 @@
         </div>
     </div>
 
-    <!-- ========================================== -->
     <!-- SCREEN 3: HALAMAN FOTO -->
-    <!-- ========================================== -->
     <div id="pageFoto" class="hidden-screen fixed inset-0 z-40 overflow-y-auto pb-12">
 
-        <!-- HEADER (FIXED) -->
         <div class="max-w-md mx-auto px-4 pt-10 pb-4">
             <button onclick="closePage()" type="button"
                 class="text-pink-500 font-bold flex items-center gap-2 hover:text-pink-700 bg-pink-50 px-4 py-2 rounded-full w-max transition">
@@ -228,96 +199,80 @@
             </p>
         </div>
 
-        <!-- CONTENT (DI LUAR HEADER!) -->
         <div class="max-w-md mx-auto px-4 pb-10">
             <div class="grid grid-cols-2 gap-3">
-                <!-- FOTO 1: GANTI LINK FOTO DI DALAM src="..." DI BAWAH INI -->
                 <div class="col-span-2 group relative overflow-hidden rounded-2xl shadow-sm">
                     <img src="1.jpg" alt="Momen 1"
                         class="w-full h-48 object-cover transform transition duration-500 group-hover:scale-110">
                 </div>
 
-                <!-- FOTO 2: GANTI LINK FOTO DI DALAM src="..." DI BAWAH INI -->
                 <div class="group relative overflow-hidden rounded-2xl shadow-sm">
                     <img src="17.jpg" alt="Momen 2"
                         class="w-full aspect-square object-cover transform transition duration-500 group-hover:scale-110">
                 </div>
 
-                <!-- FOTO 3: GANTI LINK FOTO DI DALAM src="..." DI BAWAH INI -->
                 <div class="group relative overflow-hidden rounded-2xl shadow-sm">
                     <img src="18.jpg" alt="Momen 3"
                         class="w-full aspect-square object-cover transform transition duration-500 group-hover:scale-110">
                 </div>
 
-                <!-- FOTO 4: GANTI LINK FOTO DI DALAM src="..." DI BAWAH INI -->
                 <div class="row-span-2 group relative overflow-hidden rounded-2xl shadow-sm">
                     <img src="10.jpg" alt="Momen 4"
                         class="w-full h-full object-cover transform transition duration-500 group-hover:scale-110">
                 </div>
 
                 <div class="flex flex-col gap-3">
-                    <!-- FOTO 5: GANTI LINK FOTO DI DALAM src="..." DI BAWAH INI -->
                     <div class="group relative overflow-hidden rounded-2xl shadow-sm h-32">
                         <img src="5.jpg" alt="Momen 5"
                             class="w-full h-full object-cover transform transition duration-500 group-hover:scale-110">
                     </div>
-                    <!-- FOTO 6: GANTI LINK FOTO DI DALAM src="..." DI BAWAH INI -->
                     <div class="group relative overflow-hidden rounded-2xl shadow-sm h-32">
                         <img src="6.jpg" alt="Momen 6"
                             class="w-full h-full object-cover transform transition duration-500 group-hover:scale-110">
                     </div>
                 </div>
 
-                <!-- FOTO 7: GANTI LINK FOTO DI DALAM src="..." DI BAWAH INI -->
                 <div class="col-span-2 group relative overflow-hidden rounded-2xl shadow-sm mt-1">
                     <img src="7.jpg" alt="Momen 7"
                         class="w-full h-40 object-cover transform transition duration-500 group-hover:scale-110">
                 </div>
 
-                <!-- FOTO 8: GANTI LINK FOTO DI DALAM src="..." DI BAWAH INI -->
                 <div class="group relative overflow-hidden rounded-2xl shadow-sm">
                     <img src="16.jpg" alt="Momen 8"
                         class="w-full aspect-square object-cover transform transition duration-500 group-hover:scale-110">
                 </div>
 
-                <!-- FOTO 9: GANTI LINK FOTO DI DALAM src="..." DI BAWAH INI -->
                 <div class="group relative overflow-hidden rounded-2xl shadow-sm">
                     <img src="19.jpg" alt="Momen 9"
                         class="w-full aspect-square object-cover transform transition duration-500 group-hover:scale-110">
                 </div>
 
                 <div class="flex flex-col gap-3">
-                    <!-- FOTO 10: GANTI LINK FOTO DI DALAM src="..." DI BAWAH INI -->
                     <div class="group relative overflow-hidden rounded-2xl shadow-sm h-32">
                         <img src="3.jpg" alt="Momen 10"
                             class="w-full h-full object-cover transform transition duration-500 group-hover:scale-110">
                     </div>
-                    <!-- FOTO 11: GANTI LINK FOTO DI DALAM src="..." DI BAWAH INI -->
                     <div class="group relative overflow-hidden rounded-2xl shadow-sm h-32">
                         <img src="11.jpg" alt="Momen 11"
                             class="w-full h-full object-cover transform transition duration-500 group-hover:scale-110">
                     </div>
                 </div>
 
-                <!-- FOTO 12: GANTI LINK FOTO DI DALAM src="..." DI BAWAH INI -->
                 <div class="row-span-2 group relative overflow-hidden rounded-2xl shadow-sm">
                     <img src="13.jpg" alt="Momen 12"
                         class="w-full h-full object-cover transform transition duration-500 group-hover:scale-110">
                 </div>
 
-                <!-- FOTO 13: GANTI LINK FOTO DI DALAM src="..." DI BAWAH INI -->
                 <div class="col-span-2 group relative overflow-hidden rounded-2xl shadow-sm mt-1">
                     <img src="12.jpg" alt="Momen 13"
                         class="w-full h-48 object-cover transform transition duration-500 group-hover:scale-110">
                 </div>
 
-                <!-- FOTO 14: GANTI LINK FOTO DI DALAM src="..." DI BAWAH INI -->
                 <div class="group relative overflow-hidden rounded-2xl shadow-sm">
                     <img src="14.jpg" alt="Momen 14"
                         class="w-full aspect-square object-cover transform transition duration-500 group-hover:scale-110">
                 </div>
 
-                <!-- FOTO 15: GANTI LINK FOTO DI DALAM src="..." DI BAWAH INI -->
                 <div class="group relative overflow-hidden rounded-2xl shadow-sm">
                     <img src="15.jpg" alt="Momen 15"
                         class="w-full aspect-square object-cover transform transition duration-500 group-hover:scale-110">
@@ -329,12 +284,9 @@
         </div>
     </div>
 
-    <!-- ========================================== -->
     <!-- SCREEN 4: HALAMAN VIDEO -->
-    <!-- ========================================== -->
     <div id="pageVideo" class="hidden-screen fixed inset-0 z-40 overflow-y-auto flex flex-col justify-center">
 
-        <!-- Tombol kembali -->
         <div class="fixed top-0 left-0 w-full p-6 pt-12 z-50 max-w-md mx-auto right-0">
             <button onclick="closePage()" type="button"
                 class="text-pink-500 font-bold flex items-center gap-2 hover:text-pink-700 bg-white/90 backdrop-blur-sm px-4 py-2 rounded-full shadow-md w-max transition">
@@ -347,7 +299,6 @@
                 Spesial Buat Kamu
             </h2>
 
-            <!-- VIDEO LOCAL -->
             <div class="w-full aspect-video bg-black shadow-inner">
                 <video class="w-full h-full object-cover" controls>
                     <source src="mov2.mov" type="video/mp4">
@@ -362,12 +313,9 @@
 
     </div>
 
-    <!-- ========================================== -->
     <!-- SCREEN 5: HALAMAN PESAN DARI HATI -->
-    <!-- ========================================== -->
     <div id="pagePesan" class="hidden-screen fixed inset-0 z-40 overflow-y-auto">
 
-        <!-- Tombol kembali (tetap di atas) -->
         <div class="fixed top-0 left-0 w-full p-6 pt-12 z-50 max-w-md mx-auto right-0">
             <button onclick="closePage()" type="button"
                 class="text-pink-600 font-bold flex items-center gap-2 hover:text-pink-800 bg-white/80 px-4 py-2 rounded-full shadow-md">
@@ -375,7 +323,6 @@
             </button>
         </div>
 
-        <!-- Konten utama (bisa discroll) -->
         <div class="pt-28 pb-10 max-w-md mx-auto px-6">
 
             <div class="bg-white/90 backdrop-blur-sm p-8 rounded-3xl shadow-2xl border-2 border-pink-100 mt-4">
@@ -400,7 +347,6 @@
 
                     <div class="text-center mt-8 pt-4 border-t border-pink-100">
                         <p class="font-handwriting text-3xl text-pink-600 block">Love You Sayang,</p>
-                        <!-- GANTI NAMA ANDA DI BAWAH INI -->
                         <p class="font-bold text-gray-900 text-lg mt-1">Your Boyfriend</p>
                     </div>
                 </div>
@@ -409,21 +355,16 @@
         </div>
     </div>
 
-    <!-- Script Logika Interaksi -->
     <script>
         function openCard() {
-            // Sembunyikan cover
             document.getElementById('coverScreen').classList.add('hidden-screen');
-            // Tampilkan menu utama
             document.getElementById('mainMenu').classList.remove('hidden-screen');
 
-            // Tampilkan tombol musik dan putar lagu
             document.getElementById('musicToggle').classList.remove('hidden-screen');
             document.getElementById('bgMusic').play().catch(function (error) {
-                console.log("Autoplay dicegah oleh browser, butuh interaksi user.");
+                console.log("Autoplay dicegah oleh browser.");
             });
 
-            // Efek Confetti
             var duration = 3 * 1000;
             var animationEnd = Date.now() + duration;
             var defaults = { startVelocity: 30, spread: 360, ticks: 60, zIndex: 100 };
@@ -442,62 +383,63 @@
             setTimeout(() => { confetti({ particleCount: 150, spread: 80, origin: { y: 0.6 } }); }, 500);
         }
 
-        // Fungsi kontrol musik (Play/Pause)
         function toggleMusic() {
             const music = document.getElementById('bgMusic');
             const btn = document.getElementById('musicToggle');
 
             if (music.paused) {
                 music.play();
-                btn.innerHTML = '🎵'; // Ikon lagu nyala
+                btn.innerHTML = '🎵';
             } else {
                 music.pause();
-                btn.innerHTML = '🔇'; // Ikon lagu mati
+                btn.innerHTML = '🔇';
             }
         }
 
-        // Fungsi buka halaman spesifik
         function openPage(pageId) {
-            const pages = ['mainMenu', 'pageFoto', 'pageVideo', 'pagePesan'];
-
-            pages.forEach(id => {
+            // Sembunyikan semua page dan mainMenu
+            const allScreens = ['mainMenu', 'pageFoto', 'pageVideo', 'pagePesan'];
+            allScreens.forEach(id => {
                 const el = document.getElementById(id);
                 if (el) {
                     el.classList.add('hidden-screen');
                     el.classList.remove('slide-in-right');
-                    el.style.zIndex = "0";
+                    el.style.removeProperty('z-index');
+                    el.style.removeProperty('display');
                 }
             });
 
+            // Tampilkan page yang dituju
             const page = document.getElementById(pageId);
-            page.classList.remove('hidden-screen');
-            page.classList.add('slide-in-right');
-            page.style.zIndex = "40";
+            if (page) {
+                page.style.display = 'block'; // paksa tampil dulu
+                page.classList.remove('hidden-screen');
+                page.classList.add('slide-in-right');
+                page.style.zIndex = "40";
+            }
             window.scrollTo(0, 0);
         }
 
-        // Fungsi kembali ke menu utama
         function closePage() {
-            const pages = ['pageFoto', 'pageVideo', 'pagePesan'];
-
-            pages.forEach(id => {
+            // Sembunyikan semua sub-page
+            const subPages = ['pageFoto', 'pageVideo', 'pagePesan'];
+            subPages.forEach(id => {
                 const el = document.getElementById(id);
                 if (el) {
                     el.classList.add('hidden-screen');
                     el.classList.remove('slide-in-right');
-                    el.style.zIndex = "0";
+                    el.style.removeProperty('z-index');
+                    el.style.removeProperty('display');
                 }
             });
 
+            // Tampilkan mainMenu — paksa inline style agar tidak tertimpa animasi lama
             const mainMenu = document.getElementById('mainMenu');
-
             mainMenu.classList.remove('hidden-screen');
+            mainMenu.style.display = 'flex';
             mainMenu.style.zIndex = "40";
-
-            // reset animasi biar halus
-            mainMenu.classList.remove('fade-in-up');
-            void mainMenu.offsetWidth;
-            mainMenu.classList.add('fade-in-up');
+            mainMenu.style.opacity = '1';
+            mainMenu.style.transform = 'translateY(0)';
 
             window.scrollTo(0, 0);
         }
